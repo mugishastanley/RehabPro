@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="scalable_person">
+
+  <xacro:arg name="pHeight" default="1.8"/>
+  <xacro:property name="H" value="$(arg pHeight)"/>
+
+  <xacro:property name="chest_width"     value="${0.259*H}" /> <!--${sfactor*0.3662}" /-->
+  <xacro:property name="chest_depth"     value="${0.1667*H}" /> <!--${sfactor*0.30} /-->
+  <xacro:property name="chest_height"    value="${0.387*H}" /> <!--${sfactor*0.6966} /-->
+  <xacro:property name="head_radius"     value="${0.13*H/2}"/>
+
+  <xacro:property name="shoulder_radius" value="${0.0277*H}"/>
+
+  <xacro:property name="humerus_radius"  value="${shoulder_radius}"/>
+  <xacro:property name="humerus_length"  value="${0.188*H}" />
+
+  <xacro:property name="forearm_radius"  value="${shoulder_radius}"/>
+  <xacro:property name="forearm_length"  value="${0.145*H}" />
+
+  <xacro:property name="wrist_radius"    value="${shoulder_radius}"/>
+
+  <xacro:property name="palm_length"     value="${0.108*H}" />
+  <xacro:property name="palm_width"      value="${0.05*H}" />
+  <xacro:property name="palm_thickness"  value="${0.0222*H}" />
+
+
+  <!-- Add for independent usage of the person model -->
+  <link name="world"/>
+
+  <link name="right_shoulder">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+
+  </link>
+  <gazebo reference="right_shoulder">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <joint name="RShoulder" type="fixed" >
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <!--origin xyz="-0.2331 0.0 0.2855" rpy="0.0 3.14 0.0"/-->   <!-- (0.259*H)/2 width in z direction, (0.387*H)/2 chest height in y direction  -->
+    <parent link="world" />
+    <child link="right_shoulder" />
+  </joint>
+
+
+  <link name="right_shoulder_psi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_shoulder_psi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <joint name="RShoulderPsi" type="revolute" >
+      <!-- <limit effort="1000.0" lower="-3.14" upper="2.00" velocity="0.5" /> -->
+    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5" />
+    <origin rpy="0 0 0" />
+    <parent link="right_shoulder" />
+    <child link="right_shoulder_psi_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_shoulder_theta_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_shoulder_theta_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <joint name="RShoulderTheta" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-1.67" upper="2.20" velocity="0.5" /> -->
+    <parent link="right_shoulder_psi_link"/>
+    <child link="right_shoulder_theta_link"/>
+    <origin rpy="1.5708 0 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_shoulder_phi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_shoulder_phi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RShoulderPhi" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-3.14" upper="1.60" velocity="0.5" /> -->
+    <parent link="right_shoulder_theta_link"/>
+    <child link="right_shoulder_phi_link"/>
+    <origin rpy="1.5708 0 1.5708" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="right_humerus">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    
+  </link>
+  <gazebo reference="right_humerus">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RShoulderHumrus" type="fixed" >
+    <parent link="right_shoulder_phi_link"/>
+    <child link="right_humerus"/>
+    <origin rpy="0 0 0" xyz="0 0 ${humerus_length/2}" />
+    <!--origin rpy="0 0 0" xyz="0 0 0.1692" /-->  <!-- z values changes with dimension of the body , 0.188*H/2 -->
+  </joint>
+
+</robot>

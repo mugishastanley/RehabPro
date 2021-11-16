@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="paused" default="false" doc="Starts gazebo in paused mode" />
+    <arg name="gui" default="true" doc="Starts gazebo gui" />
+    <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+
+    <!-- startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" default="worlds/empty.world"/>
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="gui" value="$(arg gui)"/>
+    </include>
+
+    <node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen">
+    </node>
+
+    <arg name="person_height" default="1.8"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find myur5_description)/urdf/scalable_person.urdf.xacro pHeight:=$(arg person_height)" />
+
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" type="string" value="" />
+    </node>
+  	<!-- push robot_description to factory and spawn robot in gazebo -->
+  	<node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model person -z 0.0" respawn="false" output="screen" />
+
+    <rosparam file="$(find myur5_description)/controllers/person_controllers.yaml" command="load"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="true"/>
+      <rosparam param="/source_list">[/joint_states]</rosparam>
+    </node>
+
+    <node name="person_controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"
+      args="spawn
+      LShoulderPsi_controller
+      LShoulderTheta_controller
+      LShoulderPhi_controller
+      LElbow_controller
+      LWristPsi_controller
+      LWristTheta_controller
+      LWristPhi_controller
+      RShoulderPsi_controller
+      RShoulderTheta_controller
+      RShoulderPhi_controller
+      RElbow_controller
+      RWristPsi_controller
+      RWristTheta_controller
+      RWristPhi_controller">
+    </node>
+
+</launch>

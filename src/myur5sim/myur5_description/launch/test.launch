@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="paused" default="false" doc="Starts gazebo in paused mode" />
+    <arg name="gui" default="true" doc="Starts gazebo gui" />
+
+    <!-- startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" default="worlds/empty.world"/>
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="gui" value="$(arg gui)"/>
+    </include>
+
+    <node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen">
+    </node>
+  	<!--param name="robot_description" command="$(find xacro)/xacro '$(find myur5_description)/urdf/myur5.urdf.xacro' transmission_hw_interface:=$(arg transmission_hw_interface)" /-->
+
+  	<param name="robot_description" command="$(find xacro)/xacro --inorder $(find myur5_description)/urdf/tes2.urdf.xacro" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <!--remap from="/joint_states" to="/simple_model/joint_states"/-->
+      <!--param name="publish_frequency" type="double" value="50.0" /-->
+      <!--param name="tf_prefix" type="string" value="" /-->
+    </node>
+  	<!-- push robot_description to factory and spawn robot in gazebo -->
+  	<node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model simple_model -z 0.0" respawn="false" output="screen" />
+
+    <!--rosparam file="$(find myur5_description)/controllers/test_controllers.yaml" command="load"/-->
+
+    <!--node name="test_controller_spawner" pkg="controller_manager" type="spawner" output="screen" 
+      args="test_arm_controller_x test_arm_controller_y test_arm_controller_z LElbow_controller LWristPsi_controller LWristTheta_controller LWristPhi_controller joint_state_controller"/-->
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="true"/> 
+    </node>
+
+</launch>

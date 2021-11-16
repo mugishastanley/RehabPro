@@ -1,0 +1,8 @@
+prefix=/home/adminuser/ws_moveit3/install
+
+Name: ur_e_description
+Description: Description of ur_e_description
+Version: 1.2.7
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

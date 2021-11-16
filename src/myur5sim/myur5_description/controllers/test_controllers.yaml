@@ -1,0 +1,38 @@
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+test_arm_controller_x:
+    type: effort_controllers/JointPositionController
+    joint: pilar_arm_joint_x
+    pid: {p: 100.0, i: 0.0, d: 15.0}
+
+test_arm_controller_y:
+    type: effort_controllers/JointPositionController
+    joint: pilar_arm_joint_y
+    pid: {p: 100.0, i: 0.0, d: 15.0}
+
+test_arm_controller_z:
+    type: effort_controllers/JointPositionController
+    joint: pilar_arm_joint_z
+    pid: {p: 100.0, i: 0.0, d: 15.0}
+
+LElbow_controller:
+    type: effort_controllers/JointPositionController
+    joint: LElbow
+    pid: {p: 100.0, i: 0.0, d: 20.0}
+
+LWristPsi_controller:
+    type: effort_controllers/JointPositionController
+    joint: LWristPsi
+    pid: {p: 100.0, i: 0.0, d: 15.0}
+
+LWristTheta_controller:
+    type: effort_controllers/JointPositionController
+    joint: LWristTheta
+    pid: {p: 100.0, i: 0.0, d: 15.0}
+
+LWristPhi_controller:
+    type: effort_controllers/JointPositionController
+    joint: LWristPhi
+    pid: {p: 100.0, i: 0.0, d: 15.0}

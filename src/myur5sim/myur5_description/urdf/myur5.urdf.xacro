@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="myur5">
+
+  <xacro:property name="d6" value="0.0823" />
+  <xacro:property name="wrist_3_length" value="${d6}" />
+
+  <xacro:property name="H" value="$(arg pHeight)"/>
+  <xacro:property name="limited" value="$(arg limited)"/>
+	<link name="world"/>
+
+<link name="pedestal">
+  <inertial>
+    <origin xyz="0 0 0.4" rpy="0 0 0"/>
+      <mass value="20"/>
+      <inertia ixx="200"  ixy="200"  ixz="200" iyy="200" iyz="200" izz="200" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.4" rpy="0 0 0" />
+      <geometry>
+          <box size="0.16 0.16 0.80"/>
+      </geometry>
+      <material name="red">
+          <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.4" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.16 0.16 0.80"/>
+      </geometry>
+    </collision>
+</link>
+
+ 	<gazebo reference="pedestal">
+ 		<mu1>0.2</mu1>
+ 		<mu2>0.2</mu2>
+ 		<material>Gazebo/Orange</material>
+ 	</gazebo>
+ 	<joint name="world_joint" type="fixed">
+ 		<parent link="world" />
+ 		<child link="pedestal" />
+ 		<origin xyz="0 0 0" rpy="0.0 0.0 -0.785"/>
+ 	</joint>
+
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="wrist_3_link" />
+    <child link = "tool_link" />
+    <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="${pi/-2.0} 0.0 0.0" />
+  </joint>
+
+  <link name="tool_link">
+    <inertial>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        <mass value="20"/>
+        <inertia ixx="200"  ixy="200"  ixz="200" iyy="200" iyz="200" izz="200" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <geometry>
+            <box size="0.07 0.07 0.10"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        <geometry>
+              <box size="0.07 0.07 0.10"/>
+        </geometry>
+      </collision>
+  </link>
+
+
+
+
+
+
+  <gazebo reference="tool_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+ 	<xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+
+  <!-- ur5 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+
+  <!-- scalable person -->
+  <!--xacro:include filename="$(find myur5_description)/urdf/scalable_person.urdf.xacro" /-->
+
+  <!-- environment -->
+  <!--xacro:include filename="$(find myur5_description)/urdf/environment.urdf.xacro" /-->
+
+
+  <!-- arm -->
+
+  <xacro:ur5_robot prefix="" joint_limited="true"
+    shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+    shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+    elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+    wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+    wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+    wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+  />
+
+ 	<joint name="base_joint" type="fixed">
+ 		<parent link="pedestal" />
+ 		<child link="base_link" />
+ 		<origin xyz=" 0 0 0.8" rpy="0.0 0.0 0.785"/>
+ 	</joint>
+ </robot>

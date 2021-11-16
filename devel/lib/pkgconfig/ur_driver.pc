@@ -1,0 +1,8 @@
+prefix=/home/adminuser/ws_moveit3/devel
+
+Name: ur_driver
+Description: Description of ur_driver
+Version: 1.2.7
+Cflags: -I/home/adminuser/ws_moveit3/devel/include
+Libs: -L${prefix}/lib 
+Requires: dynamic_reconfigure

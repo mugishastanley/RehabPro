@@ -1,0 +1,71 @@
+LShoulderPsi_controller:
+    type: effort_controllers/JointPositionController
+    joint: LShoulderPsi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+LShoulderTheta_controller:
+    type: effort_controllers/JointPositionController
+    joint: LShoulderTheta
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+LShoulderPhi_controller:
+    type: effort_controllers/JointPositionController
+    joint: LShoulderPhi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+LElbow_controller:
+    type: effort_controllers/JointPositionController
+    joint: LElbow
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+LWristPsi_controller:
+    type: effort_controllers/JointPositionController
+    joint: LWristPsi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+LWristTheta_controller:
+    type: effort_controllers/JointPositionController
+    joint: LWristTheta
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+LWristPhi_controller:
+    type: effort_controllers/JointPositionController
+    joint: LWristPhi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+
+
+RShoulderPsi_controller:
+    type: effort_controllers/JointPositionController
+    joint: RShoulderPsi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+RShoulderTheta_controller:
+    type: effort_controllers/JointPositionController
+    joint: RShoulderTheta
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+RShoulderPhi_controller:
+    type: effort_controllers/JointPositionController
+    joint: RShoulderPhi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+RElbow_controller:
+    type: effort_controllers/JointPositionController
+    joint: RElbow
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+RWristPsi_controller:
+    type: effort_controllers/JointPositionController
+    joint: RWristPsi
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+RWristTheta_controller:
+    type: effort_controllers/JointPositionController
+    joint: RWristTheta
+    pid: {p: 2.0, i: 0.0, d: 0.0}
+
+RWristPhi_controller:
+    type: effort_controllers/JointPositionController
+    joint: RWristPhi
+    pid: {p: 2.0, i: 0.0, d: 0.0}

@@ -1,0 +1,8 @@
+prefix=/home/adminuser/ws_moveit3/devel
+
+Name: industrial_msgs
+Description: Description of industrial_msgs
+Version: 0.7.1
+Cflags: -I/home/adminuser/ws_moveit3/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime std_msgs trajectory_msgs

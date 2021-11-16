@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<launch>
+	  <arg name="limited" default="true"  doc="If true, limits joint range [-PI, PI] on all joints." />
+  	<arg name="paused" default="false" doc="Starts gazebo in paused mode" />
+  	<arg name="gui" default="true" doc="Starts gazebo gui" />
+  	<arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+
+
+  	<!-- startup simulated world -->
+  	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+    	<arg name="world_name" default="worlds/empty.world"/>
+    	<arg name="paused" value="$(arg paused)"/>
+    	<arg name="gui" value="$(arg gui)"/>
+  	</include>
+
+  	<!--param name="robot_description" command="$(find xacro)/xacro '$(find myur5_description)/urdf/myur5.urdf.xacro' transmission_hw_interface:=$(arg transmission_hw_interface)" /-->
+
+
+    <!-- if just launching gazebo (without including planning exec launch) -->
+
+    <!--arg name="person_height" default="1.0"/-->
+  	<!--param name="robot_description" command="$(find xacro)/xacro '$(find myur5_description)/urdf/myur5.urdf.xacro' transmission_hw_interface:=$(arg transmission_hw_interface) pHeight:=$(arg person_height)" /-->
+		<!--include file="$(find manequin_description)/launch/manequin.launch"/-->
+
+  	<!-- push robot_description to factory and spawn robot in gazebo -->
+  	<node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot -z 0.0" respawn="false" output="screen" />
+
+  	<include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
+
+  	<!-- start this controller -->
+  	<rosparam file="$(find ur_gazebo)/controller/arm_controller_ur5.yaml" command="load"/>
+
+    <!--rosparam file="$(find myur5_description)/controllers/person_controllers.yaml" command="load"/-->
+
+  	<node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"
+      args="spawn
+      arm_controller">
+    </node>
+
+    <include file="$(find myur5_moveit_config)/launch/myur5_planning_execution.launch" >
+    </include>
+
+    <!--node name="person_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+      args="LShoulderPsi_controller
+      LShoulderTheta_controller
+      LShoulderPhi_controller
+      LElbow_controller
+      LWristPsi_controller
+      LWristTheta_controller
+      LWristPhi_controller
+      RShoulderPsi_controller
+      RShoulderTheta_controller
+      RShoulderPhi_controller
+      RElbow_controller
+      RWristPsi_controller
+      RWristTheta_controller
+      RWristPhi_controller">
+    </node-->
+
+</launch>

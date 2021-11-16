@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+  <group ns="manequin">
+  	<arg name="gui" default="false"/>
+
+    <!-- robot desired height -->
+    <arg name="robot_height" default="1.8"/>
+    <arg name="robot_description" default="maneqin_robot_description"/>
+  	<!--param name="robot_description" command="$(find xacro)/xacro '$(find manequin_description)/urdf/scalable_person.urdf.xacro' pHeight:=$(arg robot_height)" /-->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find manequin_description)/urdf/scalable_person.urdf.xacro' pHeight:=$(arg robot_height)" />
+    <param name="use_gui" value="$(arg gui)"/>  	<!-- push robot_description to factory and spawn robot in gazebo -->
+
+    <node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="true"/>
+      <rosparam param="/source_list">[/manequin/joint_states]</rosparam>
+    </node>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+  </group>
+</launch>

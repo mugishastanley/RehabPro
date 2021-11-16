@@ -1,0 +1,8 @@
+prefix=/home/adminuser/ws_moveit3/devel
+
+Name: industrial_deprecated
+Description: Description of industrial_deprecated
+Version: 0.7.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

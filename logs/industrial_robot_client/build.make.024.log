@@ -1,0 +1,10 @@
+[  8%] Built target industrial_robot_client_dummy
+[ 32%] Built target industrial_robot_client_bswap
+[ 55%] Built target industrial_robot_client
+[ 61%] Built target motion_streaming_interface_bswap
+[ 67%] Built target robot_state_bswap
+[ 73%] Built target motion_streaming_interface
+[ 79%] Built target motion_download_interface_bswap
+[ 85%] Built target motion_download_interface
+[ 91%] Built target robot_state
+[100%] Built target joint_trajectory_action

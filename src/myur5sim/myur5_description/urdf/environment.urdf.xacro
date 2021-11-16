@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="environment">
+
+
+  <!-- Add for independent usage of the person model -->
+
+  <!-- Chair model -->
+
+  <joint name="car_joint" type="fixed">
+    <parent link="world" />
+    <child link = "car_frame" />
+    <!--origin xyz="-0.330 -0.250 0.235" rpy="0.0 0.0 -0.785" /-->
+    <origin xyz="-0.35 0.15 0.18" rpy="0.0 0.0 -0.785" />
+  </joint>
+
+   <link name="car_frame">
+     <visual>
+     <geometry>
+       <mesh filename="package://ur_description/meshes/ur5/collision/int_nochair.stl" />
+     </geometry>
+       <material name="LightGrey">
+         <color rgba="0.7 0.7 0.7 1.0"/>
+       </material>
+     </visual>
+    </link>
+
+</robot>

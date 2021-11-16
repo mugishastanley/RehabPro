@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="myur5">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="manipulator">
+        <chain base_link="pedestal" tip_link="tool_link" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="home" group="manipulator">
+        <joint name="elbow_joint" value="1.8849" />
+        <joint name="shoulder_lift_joint" value="-2.3015" />
+        <joint name="shoulder_pan_joint" value="0.7897" />
+        <joint name="wrist_1_joint" value="0.2061" />
+        <joint name="wrist_2_joint" value="1.5631" />
+        <joint name="wrist_3_joint" value="-0.00698132" />
+    </group_state>
+    <group_state name="steering_weel" group="manipulator">
+        <joint name="elbow_joint" value="2.0851" />
+        <joint name="shoulder_lift_joint" value="-1.29137" />
+        <joint name="shoulder_pan_joint" value="0.2958" />
+        <joint name="wrist_1_joint" value="-0.9674" />
+        <joint name="wrist_2_joint" value="1.0679" />
+        <joint name="wrist_3_joint" value="-0.00698132" />
+    </group_state>
+    <group_state name="steering_weel_1" group="manipulator">
+        <joint name="elbow_joint" value="2.1783" />
+        <joint name="shoulder_lift_joint" value="-1.1517" />
+        <joint name="shoulder_pan_joint" value="0.3267" />
+        <joint name="wrist_1_joint" value="-1.6235" />
+        <joint name="wrist_2_joint" value="1.1777" />
+        <joint name="wrist_3_joint" value="-0.00698132" />
+    </group_state>
+    <group_state name="dashboard_1" group="manipulator">
+        <joint name="elbow_joint" value="2.204" />
+        <joint name="shoulder_lift_joint" value="-1.1412" />
+        <joint name="shoulder_pan_joint" value="1.3131" />
+        <joint name="wrist_1_joint" value="-1.4875" />
+        <joint name="wrist_2_joint" value="2.1973" />
+        <joint name="wrist_3_joint" value="-0.00698132" />
+    </group_state>
+    <group_state name="behind_sw_1" group="manipulator">
+        <joint name="elbow_joint" value="2.6373" />
+        <joint name="shoulder_lift_joint" value="-2.0324" />
+        <joint name="shoulder_pan_joint" value="0.2148" />
+        <joint name="wrist_1_joint" value="-1.1627" />
+        <joint name="wrist_2_joint" value="1.6688" />
+        <joint name="wrist_3_joint" value="-0.00698132" />
+    </group_state>
+    <group_state name="dashboard_2" group="manipulator">
+        <joint name="elbow_joint" value="2.4689" />
+        <joint name="shoulder_lift_joint" value="-1.8278" />
+        <joint name="shoulder_pan_joint" value="1.4945" />
+        <joint name="wrist_1_joint" value="-1.0053" />
+        <joint name="wrist_2_joint" value="2.0226" />
+        <joint name="wrist_3_joint" value="1.1582" />
+    </group_state>
+    <group_state name="seat_1" group="manipulator">
+        <joint name="elbow_joint" value="0.7614" />
+        <joint name="shoulder_lift_joint" value="0.013" />
+        <joint name="shoulder_pan_joint" value="1.3629" />
+        <joint name="wrist_1_joint" value="-0.8902" />
+        <joint name="wrist_2_joint" value="1.6856" />
+        <joint name="wrist_3_joint" value="1.3589" />
+    </group_state>
+    <group_state name="beetween_seats" group="manipulator">
+        <joint name="elbow_joint" value="1.2229" />
+        <joint name="shoulder_lift_joint" value="0.3474" />
+        <joint name="shoulder_pan_joint" value="1.1564" />
+        <joint name="wrist_1_joint" value="-2.9539" />
+        <joint name="wrist_2_joint" value="1.69978" />
+        <joint name="wrist_3_joint" value="1.3583" />
+    </group_state>
+    <group_state name="door_1" group="manipulator">
+        <joint name="elbow_joint" value="2.0172" />
+        <joint name="shoulder_lift_joint" value="-1.191" />
+        <joint name="shoulder_pan_joint" value="-0.4201" />
+        <joint name="wrist_1_joint" value="-1.3994" />
+        <joint name="wrist_2_joint" value="-0.552" />
+        <joint name="wrist_3_joint" value="1.35839" />
+    </group_state>
+    <group_state name="door_2" group="manipulator">
+        <joint name="elbow_joint" value="0.5337" />
+        <joint name="shoulder_lift_joint" value="-0.3071" />
+        <joint name="shoulder_pan_joint" value="-0.235" />
+        <joint name="wrist_1_joint" value="0.4527" />
+        <joint name="wrist_2_joint" value="-0.7316" />
+        <joint name="wrist_3_joint" value="1.9249" />
+    </group_state>
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="FixedBase" type="fixed" parent_frame="world" child_link="pedestal" />
+    <virtual_joint name="RobotBase" type="fixed" parent_frame="pedestal" child_link="base_link" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="base_link" link2="pedestal" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="shoulder_link" reason="Adjacent" />
+    <disable_collisions link1="ee_link" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="wrist_3_link" reason="Adjacent" />
+    <disable_collisions link1="forearm_link" link2="upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="forearm_link" link2="wrist_1_link" reason="Adjacent" />
+    <disable_collisions link1="pedestal" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="shoulder_link" link2="upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="wrist_1_link" link2="wrist_2_link" reason="Adjacent" />
+    <disable_collisions link1="wrist_1_link" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="wrist_2_link" link2="wrist_3_link" reason="Adjacent" />
+</robot>

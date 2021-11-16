@@ -1,0 +1,1016 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="scalable_person">
+
+  <xacro:arg name="pHeight" default="1.8"/>
+  <xacro:property name="H" value="$(arg pHeight)"/>
+
+  <xacro:property name="chest_width"     value="${0.259*H}" /> <!--${sfactor*0.3662}" /-->
+  <xacro:property name="chest_depth"     value="${0.1667*H}" /> <!--${sfactor*0.30} /-->
+  <xacro:property name="chest_height"    value="${0.387*H}" /> <!--${sfactor*0.6966} /-->
+  <xacro:property name="head_radius"     value="${0.13*H/2}"/>
+
+  <xacro:property name="shoulder_radius" value="${0.0277*H}"/>
+
+  <xacro:property name="humerus_radius"  value="${shoulder_radius}"/>
+  <xacro:property name="humerus_length"  value="${0.188*H}" />
+
+  <xacro:property name="forearm_radius"  value="${shoulder_radius}"/>
+  <xacro:property name="forearm_length"  value="${0.145*H}" />
+
+  <xacro:property name="wrist_radius"    value="${shoulder_radius}"/>
+
+  <xacro:property name="palm_length"     value="${0.108*H}" />
+  <xacro:property name="palm_width"      value="${0.05*H}" />
+  <xacro:property name="palm_thickness"  value="${0.0222*H}" />
+
+
+  <!-- Add for independent usage of the person model -->
+  <!--link name="world"/-->
+
+  <!-- Chair model -->
+
+  <link name="chair_base" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.60 1.00 0.30"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.60 1.00 0.30"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="chair_base">
+    <material>Gazebo/Gray</material>
+  </gazebo>
+
+  <joint name="chair_base_joint" type="fixed">
+    <parent link="world" />
+    <child link = "chair_base" />
+    <!--origin xyz="0.641 0.501 0.14" rpy="0.0 0.0 -0.785" /-->
+    <origin xyz="0.641 0.501 0.20" rpy="0.0 0.0 -0.785" />
+    <!-- 82cm (0.5798 in x and y)away from pedestal -->
+  </joint>
+
+
+<!-- Hip -->
+
+  <link name="body_hip" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.50 0.40 0.40"/>
+        <!--box size="0.40 0.20 0.50"/-->
+      </geometry>
+      <material name="red">
+          <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.50 0.40 0.40"/>
+        <!--box size="0.40 0.20 0.50"/-->     <!-- (0.387*H) chest height in y direction, (0.259*H)  chest width in z direction-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="body_hip">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="body_hip_joint" type="fixed">
+   <parent link="chair_base" />
+   <child link = "body_hip" />
+   <origin xyz="0.0 -0.15 0.35" rpy="0.0 0.0 0.0"/>
+   <!--origin xyz="0.0 -0.40 -0.2273" rpy="1.57 0.0 -1.57" /-->  <!-- (0.0 -0.40 0.1483)  -->
+  </joint>
+
+<!-- Chest -->
+  <link name="body_chest" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="${chest_width} ${chest_depth} ${chest_height}"/>
+        <!--box size="0.3662 0.30  0.6966"/-->
+        <!--box size="0.30 0.6966  0.3662"/-->     <!-- (0.387*H) chest height in y direction, (0.259*H)  chest width in z direction-->
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="${chest_width} ${chest_depth} ${chest_height}"/>
+        <!--box size="0.3662 0.30  0.6966"/-->
+        <!--box size="0.30 0.6966  0.3662"/-->     <!-- (0.387*H) chest height in y direction, (0.259*H)  chest width in z direction-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="body_chest">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="body_chest_joint" type="fixed">
+    <parent link="body_hip" />
+    <child link = "body_chest" />
+    <origin xyz="0.0 ${0.20+chest_depth/2} ${-0.10+chest_height/2}" rpy="0.0 0.0 0.0"/>
+    <!--origin xyz="0.0 0.35 0.20" rpy="0.0 0.0 0.0"/-->
+    <!--origin xyz="0.0 -0.05 0.0083" rpy="1.57 0.0 -1.57" /-->   <!-- (0.0 -0.25 0.1483)   (0.387*H/2)-20 origin in z direction -->
+  </joint>
+
+  <!-- Head -->
+  <link name="body_head" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <geometry>
+        <!--sphere radius= "0.11"/-->
+        <sphere radius= "${head_radius}"/>   <!-- (0.13*H/2) head radius -->
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <!--sphere radius= "0.11"/-->
+        <sphere radius= "${head_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="body_head">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="body_head_joint" type="fixed">
+    <parent link="body_chest" />
+    <child link = "body_head" />
+    <!--origin xyz="0.0 0.0 0.4583" rpy="0.0 0.0 0.0" /-->
+    <origin xyz="0.0 0.0 ${chest_height/2 + head_radius}" rpy="0.0 0.0 0.0" />  <!-- 31 cm + head radius in y direction  0.4583  -->
+  </joint>
+
+  <!-- Legs -->
+  <link name="body_Lleg" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.20 0.34 0.40"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.20 0.34 0.40"/>
+        <!--box size="0.30 0.6966  0.3662"/-->     <!-- (0.387*H) chest height in y direction, (0.259*H)  chest width in z direction-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="body_Lleg">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="body_Lleg_joint" type="fixed">
+    <parent link="body_hip" />
+    <child link = "body_Lleg" />
+    <origin xyz="0.11 -0.28 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <link name="body_Rleg" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.20 0.34 0.40"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.20 0.34 0.40"/>
+        <!--box size="0.30 0.6966  0.3662"/-->     <!-- (0.387*H) chest height in y direction, (0.259*H)  chest width in z direction-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="body_Rleg">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="body_Rleg_joint" type="fixed">
+    <parent link="body_hip" />
+    <child link = "body_Rleg" />
+    <origin xyz="-0.11 -0.28 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+
+<!-- Left Arm -->
+
+  <link name="left_shoulder">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <!--sphere radius="0.05"/-->
+        <sphere radius="${shoulder_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <!--sphere radius="0.05"/-->
+        <sphere radius="${shoulder_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_shoulder">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LShoulder" type="fixed" >
+    <origin xyz="${chest_width/2 + shoulder_radius} 0.0 ${0.8*chest_height/2}" />
+    <!--origin xyz="0.2331 0.0 0.2855" /-->
+    <!--origin xyz="0.3583 0.0 0.2855" /-->   <!-- (0.259*H)/2 width in z direction, (0.387*H)/2 chest height in y direction  -->
+    <parent link="body_chest" />
+    <child link="left_shoulder" />
+  </joint>
+
+
+  <link name="left_shoulder_psi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="left_shoulder_psi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LShoulderPsi" type="revolute" >
+    <!-- <limit effort="1000.0" lower="-3.14" upper="2.00" velocity="0.5" /> -->
+    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5" />
+    <origin rpy="0 0 0" />
+    <parent link="left_shoulder" />
+    <child link="left_shoulder_psi_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_shoulder_theta_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="left_shoulder_theta_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LShoulderTheta" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-1.67" upper="2.20" velocity="0.5" /> -->
+    <parent link="left_shoulder_psi_link"/>
+    <child link="left_shoulder_theta_link"/>
+    <origin rpy="1.5708 0 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_shoulder_phi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="left_shoulder_phi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LShoulderPhi" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-3.14" upper="1.60" velocity="0.5" /> -->
+    <parent link="left_shoulder_theta_link"/>
+    <child link="left_shoulder_phi_link"/>
+    <origin rpy="1.5708 0 1.5708" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_humerus">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="${humerus_radius}" length="${humerus_length}"/> <!-- 0.188 H lenght   -->
+        <!--cylinder radius="0.05" length="0.3384"/-->
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${humerus_radius}" length="${humerus_length}"/>
+        <!--cylinder radius="0.05" length="0.3384"/-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_humerus">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LShoulderHumrus" type="fixed" >
+    <parent link="left_shoulder_phi_link"/>
+    <child link="left_humerus"/>
+    <origin rpy="0 0 0" xyz="0 0 ${humerus_length/2}" />
+    <!--origin rpy="0 0 0" xyz="0 0 0.1692" /-->  <!-- z values changes with dimension of the body , 0.188*H/2 -->
+  </joint>
+
+
+  <link name="left_humerus_sensor">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_humerus_sensor">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LSensorHumerus" type="fixed" >
+    <parent link="left_humerus"/>
+    <child link="left_humerus_sensor"/>
+    <origin rpy="1.5708 0 1.5708" xyz="${forearm_radius} 0.0 ${-0.01+humerus_length/2}" />
+  </joint>
+
+
+  <link name="left_elbow_joint">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="${humerus_radius*2}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.01" length="${humerus_radius*2}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_elbow_joint">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LElbow" type="revolute" >
+    <limit effort="1000.0" lower="-2.67" upper="0" velocity="0.5" />
+    <origin rpy="4.71239 0 0" xyz="0 0 ${humerus_length/2}"/>   <!-- z values changes with dimension of the body , 0.188*H/2 -->
+    <axis xyz="0 0 1" />
+    <parent link="left_humerus" />
+    <child link="left_elbow_joint" />
+  </joint>
+
+
+  <!-- left hand -->
+
+  <link name="left_fore_arm">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0 "/>
+      <geometry>
+        <cylinder radius="${forearm_radius}" length="${forearm_length}"/>
+        <!--cylinder radius="0.05" length="0.261"/--> <!-- length values changes with dimension of the body 0.145*H -->
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${forearm_radius}" length="${forearm_length}"/>
+        <!--cylinder radius="0.05" length="0.261"/-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_fore_arm">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LForeArm" type="fixed" >
+    <origin rpy="1.5708 0 0" xyz="0.0 -${forearm_length/2} 0.0" /> <!-- y values changes with dimension of the body, 0.145*H/2  -->
+    <parent link="left_elbow_joint" />
+    <child link="left_fore_arm" />
+  </joint>
+
+
+  <link name="left_wrist">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="${wrist_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius= "${wrist_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_wrist">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LWrist" type="fixed" >
+    <origin xyz="0 0 ${forearm_length/2}" />   <!-- values changes with dimension of the body, 0.145*H/2 -->
+    <parent link="left_fore_arm" />
+    <child link="left_wrist" />
+  </joint>
+
+
+  <link name="left_wrist_psi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="left_wrist_psi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LWristPsi" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-1.48" upper="1.57" velocity="0.5" /> -->
+    <origin rpy="0 0 0" />
+    <parent link="left_wrist" />
+    <child link="left_wrist_psi_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_wrist_theta_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="left_wrist_theta_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LWristTheta" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-1.48" upper="1.48" velocity="0.5" /> -->
+    <origin rpy="1.5708 0 0" />
+    <parent link="left_wrist_psi_link"/>
+    <child link="left_wrist_theta_link"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_wrist_phi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="left_wrist_phi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LWristPhi" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-0.78" upper="0.78" velocity="0.5" /> -->
+    <parent link="left_wrist_theta_link"/>
+    <child link="left_wrist_phi_link"/>
+    <!-- <child link="left_palm"/> -->
+    <origin rpy="1.5708 0 1.5708" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="left_palm">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${palm_width} ${palm_thickness} ${palm_length}"/>
+        <!--box size="0.09 0.04 0.1944"/-->
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${palm_width} ${palm_thickness} ${palm_length}"/>
+        <!--box size="0.09 0.04 0.1944"/-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_palm">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LPalm" type="fixed" >
+    <parent link="left_wrist_phi_link"/>
+    <child link="left_palm"/>
+    <origin rpy="-1.5708 0 -1.5708" xyz="${palm_length/2} 0 0"  />  <!-- x values changes with dimension of the body 0.108*H/2  -->
+  </joint>
+
+
+  <link name="left_palm_sensor">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_palm_sensor">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LSensorPalm" type="fixed" >
+    <parent link="left_palm"/>
+    <child link="left_palm_sensor"/>
+    <origin rpy="1.5708 0 0" xyz="0 -${palm_thickness-0.02} 0" />  <!-- z values changes with dimension of the body  -->
+  </joint>
+
+
+<!-- Right Arm -->
+
+  <link name="right_shoulder">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <!--sphere radius="0.05"/-->
+        <sphere radius="${shoulder_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <!--sphere radius="0.05"/-->
+        <sphere radius="${shoulder_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_shoulder">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <joint name="RShoulder" type="fixed" >
+    <origin xyz="-${chest_width/2 + shoulder_radius} 0.0 ${0.8*chest_height/2}" rpy="0.0 3.14 0.0"/>
+    <!--origin xyz="-0.2331 0.0 0.2855" rpy="0.0 3.14 0.0"/-->   <!-- (0.259*H)/2 width in z direction, (0.387*H)/2 chest height in y direction  -->
+    <parent link="body_chest" />
+    <child link="right_shoulder" />
+  </joint>
+
+
+  <link name="right_shoulder_psi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_shoulder_psi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <joint name="RShoulderPsi" type="revolute" >
+      <!-- <limit effort="1000.0" lower="-3.14" upper="2.00" velocity="0.5" /> -->
+    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5" />
+    <origin rpy="0 0 0" />
+    <parent link="right_shoulder" />
+    <child link="right_shoulder_psi_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_shoulder_theta_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_shoulder_theta_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <joint name="RShoulderTheta" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-1.67" upper="2.20" velocity="0.5" /> -->
+    <parent link="right_shoulder_psi_link"/>
+    <child link="right_shoulder_theta_link"/>
+    <origin rpy="1.5708 0 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_shoulder_phi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_shoulder_phi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RShoulderPhi" type="revolute" >
+    <limit effort="1000.0" lower="3.14" upper="-3.14" velocity="0.5" />
+    <!-- <limit effort="1000.0" lower="-3.14" upper="1.60" velocity="0.5" /> -->
+    <parent link="right_shoulder_theta_link"/>
+    <child link="right_shoulder_phi_link"/>
+    <origin rpy="1.5708 0 1.5708" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_humerus">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="${humerus_radius}" length="${humerus_length}"/>
+        <!--cylinder radius="0.05" length="0.3384"/--> <!-- 0.188 H lenght   -->
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${humerus_radius}" length="${humerus_length}"/>
+        <!--cylinder radius="0.05" length="0.3384"/-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_humerus">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RShoulderHumrus" type="fixed" >
+    <parent link="right_shoulder_phi_link"/>
+    <child link="right_humerus"/>
+    <origin rpy="0 0 0" xyz="0 0 ${humerus_length/2}" />
+    <!--origin rpy="0 0 0" xyz="0 0 0.1692" /-->  <!-- z values changes with dimension of the body , 0.188*H/2 -->
+  </joint>
+
+
+  <link name="right_humerus_sensor">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_humerus_sensor">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RSensorHumerus" type="fixed" >
+    <parent link="right_humerus"/>
+    <child link="right_humerus_sensor"/>
+    <origin rpy="-1.5708 0 1.5708" xyz="-${forearm_radius} 0.0 ${-0.01+humerus_length/2}" />
+  </joint>
+
+
+  <link name="right_elbow_joint">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="${humerus_radius*2}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.01" length="${humerus_radius*2}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_elbow_joint">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RElbow" type="revolute" >
+    <limit effort="1000.0" lower="0.0" upper="2.67" velocity="0.5" />
+    <origin rpy="4.71239 0 0" xyz="0 0 ${humerus_length/2}"/>   <!-- z values changes with dimension of the body , 0.188*H/2 -->
+    <axis xyz="0 0 1" />
+    <parent link="right_humerus" />
+    <child link="right_elbow_joint" />
+  </joint>
+
+
+  <!-- Right hand -->
+
+  <link name="right_fore_arm">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0 "/>
+      <geometry>
+        <cylinder radius="${forearm_radius}" length="${forearm_length}"/> <!-- length values changes with dimension of the body 0.145*H -->
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${forearm_radius}" length="${forearm_length}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_fore_arm">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RForeArm" type="fixed" >
+    <origin rpy="1.5708 0 0" xyz="0.0 -${forearm_length/2} 0.0" /> <!-- y values changes with dimension of the body, 0.145*H/2  -->
+    <parent link="right_elbow_joint" />
+    <child link="right_fore_arm" />
+  </joint>
+
+
+  <link name="right_wrist">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="${wrist_radius}"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius= "${wrist_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_wrist">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RWrist" type="fixed" >
+    <origin xyz="0 0 ${forearm_length/2}" />   <!-- values changes with dimension of the body, 0.145*H/2 -->
+    <parent link="right_fore_arm" />
+    <child link="right_wrist" />
+  </joint>
+
+
+  <link name="right_wrist_psi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_wrist_psi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RWristPsi" type="revolute" >
+    <!-- <limit effort="1000.0" lower="-1.48" upper="1.57" velocity="0.5" /> -->
+    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5" />
+    <origin rpy="0 0 0" />
+    <parent link="right_wrist" />
+    <child link="right_wrist_psi_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_wrist_theta_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_wrist_theta_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RWristTheta" type="revolute" >
+    <!-- <limit effort="1000.0" lower="-1.48" upper="1.48" velocity="0.5" /> -->
+    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5" />
+    <origin rpy="1.5708 0 0" />
+    <parent link="right_wrist_psi_link"/>
+    <child link="right_wrist_theta_link"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_wrist_phi_link" >
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="right_wrist_phi_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RWristPhi" type="revolute" >
+    <!-- <limit effort="1000.0" lower="-0.78" upper="0.78" velocity="0.5" /> -->
+    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.5" />
+    <parent link="right_wrist_theta_link"/>
+    <child link="right_wrist_phi_link"/>
+    <!-- <child link="right_palm"/> -->
+    <origin rpy="1.5708 0 1.5708" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="right_palm">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${palm_width} ${palm_thickness} ${palm_length}"/>
+        <!--box size="0.09 0.04 0.1944"/-->
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${palm_width} ${palm_thickness} ${palm_length}"/>
+        <!--box size="0.09 0.04 0.1944"/-->
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_palm">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RPalm" type="fixed" >
+    <parent link="right_wrist_phi_link"/>
+    <child link="right_palm"/>
+    <origin rpy="-1.5708 0 -1.5708" xyz="${palm_length/2} 0 0"  />  <!-- x values changes with dimension of the body 0.108*H/2  -->
+  </joint>
+
+
+  <link name="right_palm_sensor">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.01"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_palm_sensor">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RSensorPalm" type="fixed" >
+    <parent link="right_palm"/>
+    <child link="right_palm_sensor"/>
+    <origin rpy="1.5708 0 0" xyz="0 ${palm_thickness} 0" />  <!-- z values changes with dimension of the body  -->
+  </joint>
+
+</robot>
