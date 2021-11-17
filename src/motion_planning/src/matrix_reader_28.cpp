@@ -137,13 +137,15 @@ int main(int argc, char** argv)
   //for 5 points
   //int noe = 20;   //(no of points)^2 - (no of points)
 
-  int tot_nop = 756
+  //int tot_nop = 756
 
   //for 16 points
-  int nosp = 240;
+  //int nosp = 240;
 
   //for 18 points
-  int noin = 306;
+  //int noin = 306;
+
+  int noe = 756;
 
   // Needed variables for storing rosbag data
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
@@ -152,12 +154,12 @@ int main(int argc, char** argv)
   moveit_msgs::RobotTrajectory trajectory;
 
   int i_sn = 0, i_fn = 0, i_ti = 0, i_state = 0, i_traj = 0;
-  std::string start_name[tot_nop];
-  std::string final_name[tot_nop];
+  std::string start_name[noe];
+  std::string final_name[noe];
 
   //Read the first rosbag file
   rosbag::Bag bag;
-  bag.open("matrix28slow_test.bag", rosbag::bagmode::Read);
+  bag.open("matrix28_full.bag", rosbag::bagmode::Read);
 
   std::vector<std::string> topics;
   topics.push_back(std::string("start_names"));
@@ -258,8 +260,10 @@ int main(int argc, char** argv)
   cout << "File loaded" << endl;
 
   // Go towards the home pose at initialization
-  std::vector<double> SP3 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  std::vector<double> SP1 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   std::vector<double> P2 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
+  /*
 
   P2[0] = -0.0877; //0.7897;
   P2[1] = -0.5986; //-2.3015;
@@ -274,12 +278,21 @@ int main(int argc, char** argv)
   SP3[3] = 0.3459;
   SP3[4] = 0.7407;
   SP3[5] = 0.5323;
+*/
+
+  //sp1
+  SP1[0]=1.8315485441;
+  SP1[1]=-0.978780658977778;
+  SP1[2]=1.55142319501667;
+  SP1[3]=-0.471937036711111;
+  SP1[4]=1.98618471811111;
+  SP1[5]=0.533547160216667;
 
   //move_group.setJointValueTarget(SP3);
-  move_group.setJointValueTarget(SP3);
+  move_group.setJointValueTarget(SP1);
 
   bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO( "Completed the plan from initial to home  %s", success ? "" : "FAILED");
+  ROS_INFO( "Completed the plan from initial to home  %s", success ? "successful" : "FAILED");
   if(success){
     ROS_INFO("Visualizing plan 1 as trajectory line");
     //visual_tools.publishAxisLabeled(initial, "initial");
@@ -294,8 +307,8 @@ int main(int argc, char** argv)
 
   // Define current position after moving
 
-  std::string init_frame = "SP3";
-  std::string aux_des_frame = "SP3";
+  std::string init_frame = "SP1";
+  std::string aux_des_frame = "SP1";
 
   //std::string init_frame = "P2";
   //std::string aux_des_frame = "P2";
