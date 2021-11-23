@@ -114,8 +114,8 @@ int main(int argc, char** argv)
 
   geometry_msgs::Pose sphere_pose;
 
-  sphere_pose.position.x =  0.575; // before 1.65
-  sphere_pose.position.y = 0.575; // before 1.65
+  sphere_pose.position.x =  0.475; // before 1.65
+  sphere_pose.position.y = 0.475  ; // before 1.65
   sphere_pose.position.z =  1.0; // before 0.55
   sphere_pose.orientation.x = 0.0;
   sphere_pose.orientation.y = 0.0;

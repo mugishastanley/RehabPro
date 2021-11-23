@@ -1,0 +1,124 @@
+import sys
+import numpy as np
+import math
+
+IKPI = 3.14159265358979
+IK2PI = IKPI * 2
+
+ZERO_THRESH = 0.00000001
+#define SIGN(x) ( ( (x) > 0 ) - ( (x) < 0 ) )
+def SIGN(x):
+    #print(sign(4.0))
+    if(x >= 0.0):
+        a=1.0
+    else:
+        a=-1.0
+    return a
+#define PI M_PI
+
+
+#define UR5_PARAMS
+d1 = 0.089159
+a2 = -0.42500
+a3 = -0.39225
+d4 = 0.10915
+d5 = 0.09465
+d6 = 0.0823
+
+def forward(q,T):
+    """
+    @param q       The 6 joint values
+    @param T       The 4x4 end effector pose in row-major ordering
+
+    Test Example
+    q = [0.0, 0.0, 1.0, 0.0, 1.0, 0.0]
+    T = [None] * 16
+    forward(q, T)
+    for i in range(0,4):
+        for j in range(i*4,(i+1)*4):
+            print("%1.3f ", T[j])
+        print("\n")
+    """
+    qcounter = 0
+    Tcounter = 0
+    s1 = np.sin(q[qcounter])
+    c1 = np.cos(q[qcounter])
+    qcounter += 1
+
+    q234 = q[qcounter]
+    s2= np.sin(q[qcounter])
+    c2= np.cos(q[qcounter])
+    qcounter +=1
+
+    s3 = np.sin(q[qcounter])
+    c3= np.cos(q[qcounter])
+    q234 += q[qcounter]
+    qcounter +=1
+
+    q234 += q[qcounter]
+    qcounter +=1
+
+    s5 = np.sin(q[qcounter])
+    c5= np.cos(q[qcounter])
+    qcounter +=1
+
+    s6= np.sin(q[qcounter])
+    c6= np.cos(q[qcounter])
+    s234= np.sin(q234)
+    c234=np.cos(q234)
+
+    q= ((c1*c234-s1*s234)*s5)/2.0 - c5*s1 + ((c1*c234+s1*s234)*s5)/2
+
+    T[Tcounter] = (c6*(s1*s5 + ((c1*c234-s1*s234)*c5)/2.0 + ((c1*c234+s1*s234)*c5)/2.0) -\
+          (s6*((s1*c234+c1*s234) - (s1*c234-c1*s234)))/2.0)
+    Tcounter+=1 #//nx
+
+    T[Tcounter] = (-(c6*((s1*c234+c1*s234) - (s1*c234-c1*s234)))/2.0 -\
+          s6*(s1*s5 + ((c1*c234-s1*s234)*c5)/2.0 + ((c1*c234+s1*s234)*c5)/2.0))
+    Tcounter+=1 #//ox
+
+
+    T[Tcounter]=   c5*s1 - ((c1*c234-s1*s234)*s5)/2.0 -((c1*c234-s1*s234)*s5)/2.0
+    Tcounter+=1 #//ax
+
+    T[Tcounter] = -(d5*(s1*c234-c1*s234))/2.0 + (d5*(s1*c234+c1*s234))/2.0 +\
+    d4*s1 - (d6*(c1*c234-s1*s234)*s5)/2.0 - (d6*(c1*c234+s1*s234)*s5)/2.0 +\
+    a2*c1*c2 + d6*c5*s1 + a3*c1*c2*c3 - a3*c1*s2*s3
+    Tcounter+=1 # //px
+
+    T[Tcounter] = (c6*(((s1*c234+c1*s234)*c5)/2.0 - c1*s5 + ((s1*c234-c1*s234)*c5)/2.0) +\
+          s6*((c1*c234-s1*s234)/2.0 - (c1*c234+s1*s234)/2.0))
+    Tcounter+=1 #//ny
+
+    T[Tcounter] = (c6*((c1*c234-s1*s234)/2.0 - (c1*c234+s1*s234)/2.0) -\
+          s6*(((s1*c234+c1*s234)*c5)/2.0 - c1*s5 + ((s1*c234-c1*s234)*c5)/2.0))
+    Tcounter+=1# //oy
+
+    T[Tcounter] = -c1*c5 -((s1*c234+c1*s234)*s5)/2.0 + ((c1*s234-s1*c234)*s5)/2.0
+    Tcounter+=1 #//ay
+
+    T[Tcounter] = -(d5*(c1*c234-s1*s234))/2.0 + (d5*(c1*c234+s1*s234))/2.0 - d4*c1 -\
+    (d6*(s1*c234+c1*s234)*s5)/2.0 - (d6*(s1*c234-c1*s234)*s5)/2.0 - d6*c1*c5 +\
+    a2*c2*s1 + a3*c2*c3*s1 - a3*s1*s2*s3
+    Tcounter+=1 # //py
+
+
+    T[Tcounter] = ((s234*c6+c234*s6)/2.0 + s234*c5*c6-(s234*c6-c234*s6)/2.0)
+    Tcounter+=1 #//nz
+
+    T[Tcounter] = ((c234*c6+s234*s6)/2.0 + (c234*c6-s234*s6)/2.0 - s234*c5*s6 )
+    Tcounter+=1 # oz
+
+    T[Tcounter] = ((c234*c5-s234*s5)/2.0 - (c234*c5+s234*s5)/2.0)
+    Tcounter+=1 # //az
+
+    T[Tcounter] = (d1 + (d6*(c234*c5-s234*s5))/2.0 + a3*(s2*c3+c2*s3) + a2*s2 -\
+    (d6*(c234*c5+s234*s5))/2.0 - d5*c234)
+    Tcounter+=1; #//pz
+    T[Tcounter] = 0.0
+    Tcounter+=1
+    T[Tcounter] = 0.0
+    Tcounter+=1
+    T[Tcounter] = 0.0
+    Tcounter+=1
+    T[Tcounter] = 1.0

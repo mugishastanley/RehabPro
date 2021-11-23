@@ -429,7 +429,7 @@ final_name[27].data ="16";
 
   // Store computed data in bagfile
   rosbag::Bag bag;
-  bag.open("matrixslow1_test.bag", rosbag::bagmode::Write);
+  bag.open("matrixslow12_test.bag", rosbag::bagmode::Write);
 
   for(int i = 0; i < no_p; ++i){
     for(int j = no_sp; j < no_p; ++j){

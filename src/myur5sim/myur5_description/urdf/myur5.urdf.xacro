@@ -58,7 +58,8 @@
       <visual>
         <origin xyz="0 0 0.05" rpy="0 0 0" />
         <geometry>
-            <box size="0.07 0.07 0.10"/>
+            <!--box size="0.07 0.07 0.10"/-->
+            <sphere radius ="0.04"/>
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -67,7 +68,8 @@
       <collision>
         <origin xyz="0 0 0.05" rpy="0 0 0"/>
         <geometry>
-              <box size="0.07 0.07 0.10"/>
+              <!--box size="0.07 0.07 0.10"/-->
+              <sphere radius ="0.04"/>
         </geometry>
       </collision>
   </link>
