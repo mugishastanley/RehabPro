@@ -230,6 +230,10 @@ add_executable(matrix_storer_28fast src/matrix_storer_28fast.cpp)
 add_dependencies(matrix_storer_28fast ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(matrix_storer_28fast ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
+add_executable(matrix_storer_fastall src/matrix_storer_fastall.cpp)
+add_dependencies(matrix_storer_fastall ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(matrix_storer_fastall ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
 
 add_executable(plan_reader src/plan_reader.cpp)
 add_dependencies(plan_reader ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -250,6 +254,7 @@ target_link_libraries(matrix_reader_18 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_executable(matrix_reader_28 src/matrix_reader_28.cpp)
 add_dependencies(matrix_reader_28 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(matrix_reader_28 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
 
 
 

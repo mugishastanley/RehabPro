@@ -1,0 +1,32 @@
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_fastall.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_fastall.cpp:435:1:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K^[m[K’ token
+ [01;31m[K^[m[K^
+ [01;31m[K^[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_fastall.cpp:435:2:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K^[m[K’ token
+ ^[01;31m[K^[m[K
+  [01;31m[K^[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_fastall.cpp:437:3:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[Kfor[m[K’
+   [01;31m[Kfor[m[K(int i = 0; i < no_p; ++i){
+   [01;31m[K^~~[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_fastall.cpp:437:18:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+   for(int i = 0; [01;31m[Ki[m[K < no_p; ++i){
+                  [01;31m[K^[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_28fast.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_28fast.cpp:435:1:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K^[m[K’ token
+ [01;31m[K^[m[K^
+ [01;31m[K^[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_28fast.cpp:435:2:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K^[m[K’ token
+ ^[01;31m[K^[m[K
+  [01;31m[K^[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_28fast.cpp:437:3:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[Kfor[m[K’
+   [01;31m[Kfor[m[K(int i = 0; i < no_p; ++i){
+   [01;31m[K^~~[m[K
+[01m[K/home/adminuser/ws_moveit3/src/motion_planning/src/matrix_storer_28fast.cpp:437:18:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+   for(int i = 0; [01;31m[Ki[m[K < no_p; ++i){
+                  [01;31m[K^[m[K
+make[2]: *** [CMakeFiles/matrix_storer_28fast.dir/src/matrix_storer_28fast.cpp.o] Error 1
+make[1]: *** [CMakeFiles/matrix_storer_28fast.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make[2]: *** [CMakeFiles/matrix_storer_fastall.dir/src/matrix_storer_fastall.cpp.o] Error 1
+make[1]: *** [CMakeFiles/matrix_storer_fastall.dir/all] Error 2
+make: *** [all] Error 2

@@ -207,6 +207,19 @@ plan_reader/fast:
 .PHONY : plan_reader/fast
 
 #=============================================================================
+# Target rules for targets named matrix_storer_fastall
+
+# Build rule for target.
+matrix_storer_fastall: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 matrix_storer_fastall
+.PHONY : matrix_storer_fastall
+
+# fast build rule for target.
+matrix_storer_fastall/fast:
+	$(MAKE) -f CMakeFiles/matrix_storer_fastall.dir/build.make CMakeFiles/matrix_storer_fastall.dir/build
+.PHONY : matrix_storer_fastall/fast
+
+#=============================================================================
 # Target rules for targets named matrix_storer_28
 
 # Build rule for target.
@@ -2441,6 +2454,33 @@ src/matrix_storer_28fast.cpp.s:
 	$(MAKE) -f CMakeFiles/matrix_storer_28fast.dir/build.make CMakeFiles/matrix_storer_28fast.dir/src/matrix_storer_28fast.cpp.s
 .PHONY : src/matrix_storer_28fast.cpp.s
 
+src/matrix_storer_fastall.o: src/matrix_storer_fastall.cpp.o
+
+.PHONY : src/matrix_storer_fastall.o
+
+# target to build an object file
+src/matrix_storer_fastall.cpp.o:
+	$(MAKE) -f CMakeFiles/matrix_storer_fastall.dir/build.make CMakeFiles/matrix_storer_fastall.dir/src/matrix_storer_fastall.cpp.o
+.PHONY : src/matrix_storer_fastall.cpp.o
+
+src/matrix_storer_fastall.i: src/matrix_storer_fastall.cpp.i
+
+.PHONY : src/matrix_storer_fastall.i
+
+# target to preprocess a source file
+src/matrix_storer_fastall.cpp.i:
+	$(MAKE) -f CMakeFiles/matrix_storer_fastall.dir/build.make CMakeFiles/matrix_storer_fastall.dir/src/matrix_storer_fastall.cpp.i
+.PHONY : src/matrix_storer_fastall.cpp.i
+
+src/matrix_storer_fastall.s: src/matrix_storer_fastall.cpp.s
+
+.PHONY : src/matrix_storer_fastall.s
+
+# target to generate assembly for a file
+src/matrix_storer_fastall.cpp.s:
+	$(MAKE) -f CMakeFiles/matrix_storer_fastall.dir/build.make CMakeFiles/matrix_storer_fastall.dir/src/matrix_storer_fastall.cpp.s
+.PHONY : src/matrix_storer_fastall.cpp.s
+
 src/matrix_storer_slow28.o: src/matrix_storer_slow28.cpp.o
 
 .PHONY : src/matrix_storer_slow28.o
@@ -2832,6 +2872,7 @@ help:
 	@echo "... des_point_pub"
 	@echo "... matrix_reader_18"
 	@echo "... plan_reader"
+	@echo "... matrix_storer_fastall"
 	@echo "... matrix_storer_28"
 	@echo "... trajectory_pub"
 	@echo "... move_cartesian"
@@ -3018,6 +3059,9 @@ help:
 	@echo "... src/matrix_storer_28fast.o"
 	@echo "... src/matrix_storer_28fast.i"
 	@echo "... src/matrix_storer_28fast.s"
+	@echo "... src/matrix_storer_fastall.o"
+	@echo "... src/matrix_storer_fastall.i"
+	@echo "... src/matrix_storer_fastall.s"
 	@echo "... src/matrix_storer_slow28.o"
 	@echo "... src/matrix_storer_slow28.i"
 	@echo "... src/matrix_storer_slow28.s"

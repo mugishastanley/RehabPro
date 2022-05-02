@@ -418,7 +418,7 @@ final_name[27].data ="16";
   //trajectories
   moveit_msgs::RobotTrajectory traj[no_p][no_p];
 
-  for(int i = 0; i < no_sp; ++i){
+  for(int i = 0; i < no_p; ++i){
     for(int j = 0; j < no_sp; ++j){
       if(i!= j){
         num[i][j].data = plan_array[i][j].planning_time_;
@@ -434,7 +434,7 @@ final_name[27].data ="16";
   bag.open("matrix28_fast2.bag", rosbag::bagmode::Write);
 
 
-  for(int i = 0; i < no_sp; ++i){
+  for(int i = 0; i < no_p; ++i){
     for(int j = 0; j < no_sp; ++j){
       if(i != j){
         cout << i << endl;

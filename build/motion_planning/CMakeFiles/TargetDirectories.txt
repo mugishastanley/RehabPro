@@ -5,6 +5,7 @@
 /home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/des_point_pub.dir
 /home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/matrix_reader_18.dir
 /home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/plan_reader.dir
+/home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/matrix_storer_fastall.dir
 /home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/matrix_storer_28.dir
 /home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/trajectory_pub.dir
 /home/adminuser/ws_moveit3/build/motion_planning/CMakeFiles/move_cartesian.dir

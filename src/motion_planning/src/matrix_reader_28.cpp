@@ -161,6 +161,7 @@ int main(int argc, char** argv)
   rosbag::Bag bag;
   bag.open("matrix28_full.bag", rosbag::bagmode::Read);
 
+
   std::vector<std::string> topics;
   topics.push_back(std::string("start_names"));
   topics.push_back(std::string("final_names"));

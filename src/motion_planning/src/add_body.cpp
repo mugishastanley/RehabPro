@@ -114,8 +114,8 @@ int main(int argc, char** argv)
 
   geometry_msgs::Pose sphere_pose;
 
-  sphere_pose.position.x =  0.475; // before 1.65
-  sphere_pose.position.y = 0.475  ; // before 1.65
+  sphere_pose.position.x =  0.475; //0.475; // before 0.636 according to unity value of 0.45
+  sphere_pose.position.y = 0.475; //0.475  ; // before 0.636
   sphere_pose.position.z =  1.0; // before 0.55
   sphere_pose.orientation.x = 0.0;
   sphere_pose.orientation.y = 0.0;
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
   // Get the original orientation of 'commanded_pose'
   tf2::convert(sphere_pose.orientation , qs_orig);
 
-  double r=0.0, p=0, y=-0.785;  // Rotate the previous pose by 180* about X
+  double r=0.0, p=0, y=-0.785;  // -0.785 Rotate the previous pose by 180* about X
   qs_rot.setRPY(r, p, y);
 
   qs_new = qs_rot*qs_orig;  // Calculate the new orientation
